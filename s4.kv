@@ -1,0 +1,130 @@
+WindowManager:
+    Diagnosis:
+    CameraScreen:
+    About:
+    Menu:
+
+<Home>:
+    name: "Home"
+    GridLayout:
+        size: root.width, root.height
+        Button:
+            background_normal: ''
+            on_press: app.root.current = "Menu"
+            Image:
+                source: "menu.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+<About>:
+    name: "About"
+    GridLayout:
+        size: root.width, root.height
+        Button:
+            background_normal: ''
+            on_press: app.root.current = "Menu"
+            Image:
+                source: "menu.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        
+<Diagnosis>:
+    name: "Diagnosis"
+    color: 0, 0, 0, 1
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size 
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+        rows: 5
+        Button:
+            background_normal: ''
+            on_press: app.root.current = "Menu"
+            Image:
+                source: "menu.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+        Label:
+            text: 'ChatBot'
+            color: 0, 0, 0, 1
+        ScrollView:
+            size_hint: 1, 0.6
+            do_scroll_x: False
+            do_scroll_y: True
+
+            Label:
+                id: response
+                text: ""
+                padding: 5, 0, 5, 0
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
+                halign: 'left'
+                valign: 'top'
+                markup: True
+                    
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: 5, 0, 5, 0
+            Button:
+                background_normal: ''
+                background_down: ''
+                on_press: self.background_color = (0.7, 0.7, 0.7, 1)
+                on_release: self.background_color = (0, 0, 0, 0)
+                on_release: app.root.current = "Camera"
+                size_hint: None, None
+                Image:
+                    source: "camera.png"
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    size: self.parent.size[0]-20, self.parent.size[1]
+        TextInput:
+            padding: 20
+            id: prompt
+            hint_text: "Type symptoms here"
+            multiline: False
+            focused: False
+            on_text_validate: root.text_inquiry()
+
+<CameraScreen>
+    name: "Camera"
+    Camera:
+        id:camera
+        play:True
+        index: 0
+        size_hint: 1, 1
+        padding: 0, 5, 0, 5
+        Button:
+            on_press: app.root.current = "Diagnosis"
+            on_press: root.save_image()
+
+<Menu>:
+    name: "Menu"
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size 
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+        rows: 3
+        Image:
+            source: "menu.png"
+        Button:
+            text: 'Home'
+            on_press: app.root.current = "Diagnosis"
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 1, 1, 1, 1
+        Button:
+            text: 'About'
+            on_press: app.root.current = "About"
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 1, 1, 1, 1
