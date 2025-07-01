@@ -78,7 +78,7 @@ class ChatBot():
         self.reply = f"\n\n[color=030FFC]{response.output_text}[/color]"
         self.inputList.append({"role": "assistant", "content": self.reply})
 
-        # os.remove(file)
+        os.remove(file)
             
         return self.reply
 
