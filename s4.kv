@@ -55,7 +55,6 @@ WindowManager:
             size_hint: 1, 0.6
             do_scroll_x: False
             do_scroll_y: True
-
             Label:
                 id: response
                 text: ""
@@ -109,10 +108,16 @@ WindowManager:
         play:True
         index: 0
         size_hint: 1, 1
-        padding: 0, 5, 0, 5
         Button:
             on_press: app.root.current = "Diagnosis"
             on_press: root.save_image()
+            text: 'Capture'
+            center_x: self.parent.center_x
+            # Image:
+            #     source: "call.png"
+            #     center_x: self.parent.center_x
+            #     center_y: self.parent.center_y
+            #     size: self.parent.size[0]-20, self.parent.size[1]
 
 <Menu>:
     name: "Menu"
