@@ -1,3 +1,5 @@
+#:import Factory kivy.factory.Factory
+
 WindowManager:
     Diagnosis:
     CameraScreen:
@@ -27,7 +29,23 @@ WindowManager:
                 source: "menu.png"
                 center_x: self.parent.center_x
                 center_y: self.parent.center_y
-        
+
+<HelpPopup@Popup>:
+    auto_dismiss: False
+    title: "Choose a hospital"
+    size_hint: 0.6, 0.2
+    pos_hint:{"x":0.2, "top":0.9}
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+            text: 'El Camino Health'
+            on_release: root.dismiss()
+            on_release: app.root.get_screen("Diagnosis").get_help("El Camino Health")
+        Button:
+            text: 'Valley Medical'
+            on_release: root.dismiss()
+            on_release: app.root.get_screen("Diagnosis").get_help("Valley Medical")
+
 <Diagnosis>:
     name: "Diagnosis"
     color: 0, 0, 0, 1
@@ -93,6 +111,18 @@ WindowManager:
                     center_x: self.parent.center_x
                     center_y: self.parent.center_y
                     size: self.parent.size[0]-20, self.parent.size[1]
+            Button:
+                background_normal: ''
+                background_down: ''
+                on_press: self.background_color = (0.7, 0.7, 0.7, 1)
+                on_release: self.background_color = (0, 0, 0, 0)
+                on_release: Factory.HelpPopup().open()
+                size_hint: None, None
+                Image:
+                    source: "doctor.png"
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    size: self.parent.size[0]-20, self.parent.size[1]
         TextInput:
             padding: 20
             id: prompt
@@ -113,11 +143,7 @@ WindowManager:
             on_press: root.save_image()
             text: 'Capture'
             center_x: self.parent.center_x
-            # Image:
-            #     source: "call.png"
-            #     center_x: self.parent.center_x
-            #     center_y: self.parent.center_y
-            #     size: self.parent.size[0]-20, self.parent.size[1]
+            size: 150, 150
 
 <Menu>:
     name: "Menu"

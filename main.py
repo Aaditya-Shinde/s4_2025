@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.label import Label
 from kivy.lang import Builder
 from openai import OpenAI
+import webbrowser
 import base64
 import os
 
@@ -24,14 +25,18 @@ class Diagnosis(Screen):
     def text_inquiry(self):
         self.doctor.chat(self.ids.prompt.text)
         self.show_response(f"\n\n[color=FC0303]{self.ids.prompt.text}[/color]"+self.doctor.reply)
-        self.ids.prompt.text = ""
-        
+        self.ids.prompt.text = ""    
 
     def image_evaluation(self, file):
         self.doctor.image(file)
         self.show_response(f"\n\n[color=FC0303]You sent an image to the doctor[/color]"+self.doctor.reply)
         os.remove(file)
-        
+    
+    def get_help(self, hospital):
+        if "El Camino Health" == hospital:
+            webbrowser.open_new("https://www.getcare.elcaminohealth.org/providers?location=San+Jose%2C+CA")
+        elif "Valley Medical" == hospital:
+            webbrowser.open_new("https://scvmc.scvh.org/find-provider")
 
 class CameraScreen(Screen):
     def __init__(self, **kw):
@@ -56,12 +61,12 @@ class AIlmentsApp(App):
 
 class ChatBot():
     def __init__(self):
-        self.client = OpenAI(api_key="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")    
-        self.inputList = [{"role": "system", "content": "A doctor that will give a diagnosis based on user symptoms."},
+        self.client = OpenAI(api_key="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")    
+        self.inputList = [{"role": "system", "content": "A doctor that will give a diagnosis and self-treatment that can be done by low-income individuals based on user symptoms."},
                           {"role": "system", "content": "If doctor is not sure, it should ask about more common symptoms that could lead to a diagnosis. Keep the responses brief but useful."},
-                          {"role": "system", "content": "When a diagnosis is reached, recommend a doctor they could go to and make sure to end your response with 'any other doctor you feel comfortable with.'"},
-                          {"role": "system", "content": "To choose a doctor from El Camino Health, which has a branch at 2500 Grant Road Cupertino, CA, use the following link: https://www.getcare.elcaminohealth.org/providers?location=San+Jose%2C+CA"},
-                          {"role": "system", "content": "To choose a doctor from Valley Medical, which has a branch at 751 S Bascom Ave, San Jose, CA 95128, use the following link: "}]
+                          {"role": "system", "content": "When a diagnosis is reached, make sure your reply starts with 'My diagnosis is'. Also include some treatment that can be done at home by low-income individuals."},
+                          {"role": "system", "content": "El Camino Health, which has a branch at 2500 Grant Road Cupertino, CA, use the following link: "},
+                          {"role": "system", "content": "Valley Medical, which has a branch at 751 S Bascom Ave, San Jose, CA 95128"}]
         self.reply = ""
         
     def image(self, file):
@@ -77,8 +82,8 @@ class ChatBot():
         print(response.output_text)
         self.reply = f"\n\n[color=030FFC]{response.output_text}[/color]"
         self.inputList.append({"role": "assistant", "content": self.reply})
-
-        os.remove(file)
+        if 'My diagnosis is' in response.output_text:
+            self.recommend_doctor()
             
         return self.reply
 
@@ -92,8 +97,10 @@ class ChatBot():
 
         self.reply = f"\n\n[color=030FFC]{response.output_text}[/color]"
         self.inputList.append({"role": "assistant", "content": self.reply})
+        if 'My diagnosis is' in response.output_text:
+            self.recommend_doctor()
             
         return self.reply
 
-kv = Builder.load_file("s4.kv")
+kv = Builder.load_file("s4.kv")#I'm always thirsty, experience more urination during night and am tired
 AIlmentsApp().run()
