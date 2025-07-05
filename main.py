@@ -5,7 +5,7 @@ from selenium import webdriver#type: ignore
 from selenium.webdriver.common.by import By #type: ignore
 from selenium.webdriver.common.keys import Keys#type: ignore
 from openai import OpenAI
-import webbrowser
+import webbrowser 
 import base64
 import os
 
