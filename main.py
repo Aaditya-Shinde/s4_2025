@@ -1,7 +1,9 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.label import Label
 from kivy.lang import Builder
+from selenium import webdriver#type: ignore
+from selenium.webdriver.common.by import By #type: ignore
+from selenium.webdriver.common.keys import Keys#type: ignore
 from openai import OpenAI
 import webbrowser
 import base64
@@ -24,19 +26,32 @@ class Diagnosis(Screen):
     
     def text_inquiry(self):
         self.doctor.chat(self.ids.prompt.text)
-        self.show_response(f"\n\n[color=FC0303]{self.ids.prompt.text}[/color]"+self.doctor.reply)
+        self.show_response(f"\n\n[color=FC0303]{self.ids.prompt.text}[/color] \n\n[color=030FFC]{self.doctor.reply}[/color]")
         self.ids.prompt.text = ""    
 
     def image_evaluation(self, file):
         self.doctor.image(file)
-        self.show_response(f"\n\n[color=FC0303]You sent an image to the doctor[/color]"+self.doctor.reply)
+        self.show_response(f"\n\n[color=FC0303]You sent an image to the doctor[/color] \n\n[color=030FFC]{self.doctor.reply}[/color]")
         os.remove(file)
     
     def get_help(self, hospital):
+        self.driver = webdriver.Chrome()
         if "El Camino Health" == hospital:
-            webbrowser.open_new("https://www.getcare.elcaminohealth.org/providers?location=San+Jose%2C+CA")
+            self.driver.get("https://www.getcare.elcaminohealth.org/providers?location=San+Jose%2C+CA")
+            condition = self.doctor.chat("What is my condition? resposne should be only the name of the condition. If you have no clue what my condition is, respond with only 'None'")
+            if condition != "None":
+                print(condition)
+                input_field = self.driver.find_element(By.XPATH, "//input[@aria-label='Refine your search' and @id='clinicianInput']")
+                input_field.send_keys(condition)
+                input_field.send_keys(Keys.ENTER)
         elif "Valley Medical" == hospital:
-            webbrowser.open_new("https://scvmc.scvh.org/find-provider")
+            categories = ['Anesthesiology', 'Anesthesiology: Critical Care Medicine', 'Anesthesiology: Pain Medicine', 'Anesthesiology: Pediatric Anesthesiology', 'Audiologist', 'Cardiothoracic Vascular Surgery', 'Dentist', 'Dentist: General Practice', 'Dentist: Oral and Maxillofacial Surgery', 'Dentistry', 'Dermatology', 'Emergency Medicine', 'Family Medicine', 'Family Medicine: Geriatric Medicine', 'Family Medicine: Hospice and Palliative Medicine', 'General Practice', 'Hospice & Palliative Medicine', 'Internal Medicine', 'Internal Medicine: Addiction Medicine', 'Internal Medicine: Adolescent Medicine', 'Internal Medicine: Allergy & Immunology', 'Internal Medicine: Cardiovascular Disease', 'Internal Medicine: Critical Care Medicine', 'Internal Medicine: Endocrinology, Diabetes and Metabolism', 'Internal Medicine: Gastroenterology', 'Internal Medicine: Geriatric Medicine', 'Internal Medicine: Hematology & Oncology', 'Internal Medicine: Hospice and Palliative Medicine', 'Internal Medicine: Infectious Disease', 'Internal Medicine: Interventional Cardiology', 'Internal Medicine: Nephrology', 'Internal Medicine: Pulmonary Disease', 'Internal Medicine: Rheumatology', 'Internal Medicine: Sleep Medicine', 'Maternal Fetal Medicine', 'Medical Genetics: Clinical Genetics (M.D.)', 'Neurological Surgery', 'Neurophysiologist', 'Neuropsychologist: Clinical', 'Nuclear Medicine', 'Nurse Anesthetist: Certified Registered', 'Nurse Practitioner', 'Nurse Practitioner: Acute Care', 'Nurse Practitioner: Adult Health', 'Nurse Practitioner: Community Health', 'Nurse Practitioner: Family', 'Nurse Practitioner: Gerontology', 'Nurse Practitioner: Neonatal, Critical Care', 'Nurse Practitioner: Obstetrics & Gynecology', 'Nurse Practitioner: Occupational Health', 'Nurse Practitioner: Pediatrics', 'Nurse Practitioner: Perinatal', 'Nurse Practitioner: Psych/Mental Health', 'Nurse Practitioner: Womens Health', 'Obstetrics & Gynecology', 'Obstetrics & Gynecology: Gynecologic Oncology', 'Ophthalmology', 'Optometrist', 'Orthopaedic Surgery', 'Orthopaedic Surgery: Orthopaedic Trauma', 'Orthopaedic Surgery: Pediatric Orthopaedic Surgery', 'Otolaryngology', 'Otolaryngology: Facial Plastic Surgery', 'Pathology', 'Pathology: Anatomic Pathology', 'Pathology: Clinical Pathology/Laboratory Medicine', 'Pediatrics', 'Pediatrics: Adolescent Medicine', 'Pediatrics: Developmental & Behavioral Pediatrics', 'Pediatrics: Neonatal-Perinatal Medicine', 'Pediatrics: Neurodevelopmental Disabilities', 'Pediatrics: Pediatric Cardiology', 'Pediatrics: Pediatric Critical Care Medicine', 'Pediatrics: Pediatric Endocrinology', 'Pediatrics: Pediatric Gastroenterology', 'Pediatrics: Pediatric Infectious Diseases', 'Pediatrics: Pediatric Nephrology', 'Pediatrics: Pediatric Pulmonology', 'Perfusionist', 'Physical Medicine & Rehabilitation', 'Physical Medicine & Rehabilitation: Pediatric Rehabilitatio', 'Physical Medicine & Rehabilitation: Spinal Cord Injury Medi', 'Physician Assistant', 'Physician Assistant: Medical', 'Physician Assistant: Surgical', 'Plastic Surgery', 'Podiatry', 'Podiatry: Foot & Ankle Surgery', 'Preventive Medicine: Clinical Informatics', 'Psychiatry', 'Psychiatry & Neurology, Clinical Neurophysiology', 'Psychiatry & Neurology: Child & Adolescent', 'Psychiatry & Neurology: Child & Adolescent Psychiatry', 'Psychiatry & Neurology: Neurocritical Care', 'Psychiatry & Neurology: Neurology', 'Psychiatry & Neurology: Neurology with Special Qualificatio', 'Psychiatry & Neurology: Psychiatry', 'Psychiatry & Neurology: Sleep Medicine', 'Psychiatry & Neurology: Vascular Neurology', 'Psychiatry and Neurology: Neurology', 'Psychologist', 'Psychologist: Clinical', 'Radiology', 'Radiology: Diagnostic Radiology', 'Radiology: Interventional Radiology and Diagnostic Radiology -General', 'Radiology: Neuroradiology', 'Radiology: Pediatric Radiology', 'Radiology: Radiation Oncology', 'Radiology: Vascular and Interventional Radiology', 'Social Worker', 'Social Worker: Clinical', 'Student in an Organized Health Care Education/Training Progr', 'Surgery', 'Surgery: General Surgery', 'Surgery: Pediatric Surgery', 'Surgery: Plastic and Reconstructive Surgery', 'Surgery: Surgical Critical Care', 'Surgery: Trauma Surgery', 'Surgery: Vascular Surgery', 'Surgical Critical Care', 'Teleradiology', 'Thoracic Surgery', 'Thoracic Surgery: Cardiothoracic Vascular Surgery', 'Urology']
+            self.driver.get("https://scvmc.scvh.org/find-provider")
+            self.doctor.chat(f"of the folowing categories, apply to my condition? The response should be only space seperated integers representing the indexes of the ones that apply in the 0-indexed list:{categories}")
+            self.driver.find_element(By.XPATH, "(//button[contains(@class, 'usa-accordion-button') and contains(@class, 'usa-accordion__button')])[1]").click()
+            for i in self.doctor.reply.split():
+                self.driver.find_elements(By.XPATH, "(//div[contains(@class, 'form-checkboxes') and contains(@class, 'bef-checkboxes')])[1]//div//label")[int(i)].click()
+
 
 class CameraScreen(Screen):
     def __init__(self, **kw):
@@ -65,8 +80,9 @@ class ChatBot():
         self.inputList = [{"role": "system", "content": "A doctor that will give a diagnosis and self-treatment that can be done by low-income individuals based on user symptoms."},
                           {"role": "system", "content": "If doctor is not sure, it should ask about more common symptoms that could lead to a diagnosis. Keep the responses brief but useful."},
                           {"role": "system", "content": "When a diagnosis is reached, make sure your reply starts with 'My diagnosis is'. Also include some treatment that can be done at home by low-income individuals."},
-                          {"role": "system", "content": "El Camino Health, which has a branch at 2500 Grant Road Cupertino, CA, use the following link: "},
-                          {"role": "system", "content": "Valley Medical, which has a branch at 751 S Bascom Ave, San Jose, CA 95128"}]
+                          #{"role": "system", "content": "El Camino Health, which has a branch at 2500 Grant Road Cupertino, CA, use the following link: "},
+                          #{"role": "system", "content": "Valley Medical, which has a branch at 751 S Bascom Ave, San Jose, CA 95128"}
+                          ]
         self.reply = ""
         
     def image(self, file):
@@ -80,10 +96,8 @@ class ChatBot():
                     )
         
         print(response.output_text)
-        self.reply = f"\n\n[color=030FFC]{response.output_text}[/color]"
+        self.reply = response.output_text
         self.inputList.append({"role": "assistant", "content": self.reply})
-        if 'My diagnosis is' in response.output_text:
-            self.recommend_doctor()
             
         return self.reply
 
@@ -95,10 +109,8 @@ class ChatBot():
                         input=self.inputList
                     )
 
-        self.reply = f"\n\n[color=030FFC]{response.output_text}[/color]"
+        self.reply = response.output_text
         self.inputList.append({"role": "assistant", "content": self.reply})
-        if 'My diagnosis is' in response.output_text:
-            self.recommend_doctor()
             
         return self.reply
 
