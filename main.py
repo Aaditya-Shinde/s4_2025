@@ -79,6 +79,7 @@ class ChatBot():
         self.inputList = [{"role": "system", "content": "A doctor that will give a diagnosis and self-treatment that can be done by low-income individuals based on user symptoms."},
                           {"role": "system", "content": "If doctor is not sure, it should ask about more common symptoms that could lead to a diagnosis. Keep the responses brief but useful."},
                           {"role": "system", "content": "When a diagnosis is reached, make sure your reply starts with 'My diagnosis is'. Also include some treatment that can be done at home by low-income individuals."},
+                          {"role": "system", "content": "After giving your diangosis, ask if they need help with transport, in which case you can direct them to DHCSNMT@dhcs.ca.gov"}
                           ]
         self.reply = ""
         
