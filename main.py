@@ -79,8 +79,6 @@ class ChatBot():
         self.inputList = [{"role": "system", "content": "A doctor that will give a diagnosis and self-treatment that can be done by low-income individuals based on user symptoms."},
                           {"role": "system", "content": "If doctor is not sure, it should ask about more common symptoms that could lead to a diagnosis. Keep the responses brief but useful."},
                           {"role": "system", "content": "When a diagnosis is reached, make sure your reply starts with 'My diagnosis is'. Also include some treatment that can be done at home by low-income individuals."},
-                          #{"role": "system", "content": "El Camino Health, which has a branch at 2500 Grant Road Cupertino, CA, use the following link: "},
-                          #{"role": "system", "content": "Valley Medical, which has a branch at 751 S Bascom Ave, San Jose, CA 95128"}
                           ]
         self.reply = ""
         
