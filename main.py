@@ -63,9 +63,6 @@ class CameraScreen(Screen):
         print("Captured")
         App.get_running_app().root.get_screen("Diagnosis").image_evaluation(file)
 
-class Menu(Screen):
-    pass
-
 class WindowManager(ScreenManager):
     pass
 
