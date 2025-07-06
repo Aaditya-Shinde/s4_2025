@@ -1,34 +1,36 @@
 #:import Factory kivy.factory.Factory
 
 WindowManager:
+    About:
     Diagnosis:
     CameraScreen:
-    About:
     Menu:
-
-<Home>:
-    name: "Home"
-    GridLayout:
-        size: root.width, root.height
-        Button:
-            background_normal: ''
-            on_press: app.root.current = "Menu"
-            Image:
-                source: "menu.png"
-                center_x: self.parent.center_x
-                center_y: self.parent.center_y
         
 <About>:
     name: "About"
+    color: 0, 0, 0, 1
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size 
     GridLayout:
         size: root.width, root.height
-        Button:
-            background_normal: ''
-            on_press: app.root.current = "Menu"
-            Image:
-                source: "menu.png"
-                center_x: self.parent.center_x
-                center_y: self.parent.center_y
+        cols: 2
+        rows: 2
+        ActionBar:
+            ActionView:
+                ActionPrevious:
+                    elevation:5
+                    with_previous: False
+                    title: 'App Name'
+                    ActionButton:
+                        text: "Home"
+                        on_press: app.root.current = "Diagnosis"
+                    ActionButton:
+                        text: "About"
+                        on_press: app.root.current = "About"
 
 <HelpPopup@Popup>:
     auto_dismiss: False
@@ -59,18 +61,25 @@ WindowManager:
         size: root.width, root.height
         cols: 1
         rows: 5
-        Button:
-            background_normal: ''
-            on_press: app.root.current = "Menu"
-            Image:
-                source: "menu.png"
-                center_x: self.parent.center_x
-                center_y: self.parent.center_y
+        ActionBar:
+            ActionView:
+                ActionPrevious:
+                    elevation:5
+                    with_previous: False
+                    title: 'App Name'
+                    ActionButton:
+                        text: "Home"
+                        on_press: app.root.current = "Diagnosis"
+                    ActionButton:
+                        text: "About"
+                        on_press: app.root.current = "About"
         Label:
-            text: 'ChatBot'
+            text: 'Diagnosify'
             color: 0, 0, 0, 1
+            padding: 0, 30, 0, 0
+            size_hint_y: 0.05
         ScrollView:
-            size_hint: 1, 0.6
+            size_hint: 1, 0.7
             do_scroll_x: False
             do_scroll_y: True
             Label:
@@ -125,6 +134,7 @@ WindowManager:
                     size: self.parent.size[0]-20, self.parent.size[1]
         TextInput:
             padding: 20
+            size_hint_y: 0.3
             id: prompt
             hint_text: "Type symptoms here"
             multiline: False
@@ -144,30 +154,3 @@ WindowManager:
             text: 'Capture'
             center_x: self.parent.center_x
             size: 150, 150
-
-<Menu>:
-    name: "Menu"
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size 
-    GridLayout:
-        size: root.width, root.height
-        cols: 1
-        rows: 3
-        Image:
-            source: "menu.png"
-        Button:
-            text: 'Home'
-            on_press: app.root.current = "Diagnosis"
-            color: 0, 0, 0, 1
-            background_normal: ''
-            background_color: 1, 1, 1, 1
-        Button:
-            text: 'About'
-            on_press: app.root.current = "About"
-            color: 0, 0, 0, 1
-            background_normal: ''
-            background_color: 1, 1, 1, 1
