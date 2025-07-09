@@ -15,21 +15,28 @@ WindowManager:
             pos: self.pos
             size: self.size 
     GridLayout:
-        size: root.width, root.height
         cols: 2
         rows: 2
+        size: root.width, root.height
+
         ActionBar:
+            background_color: (0.14, 0.68, 0.87, 1)
+            background_image: ''
+
             ActionView:
+                use_separator: True
+
                 ActionPrevious:
-                    elevation:5
-                    with_previous: False
                     title: 'App Name'
-                    ActionButton:
-                        text: "Home"
-                        on_press: app.root.current = "Diagnosis"
-                    ActionButton:
-                        text: "About"
-                        on_press: app.root.current = "About"
+                    with_previous: False
+
+                ActionButton:
+                    text: "Home"
+                    on_press: app.root.current = "Diagnosis"
+
+                ActionButton:
+                    text: "About"
+                    on_press: app.root.current = "About"
 
 <HelpPopup@Popup>:
     auto_dismiss: False
@@ -61,17 +68,23 @@ WindowManager:
         cols: 1
         rows: 5
         ActionBar:
+            background_color: (0.14, 0.68, 0.87, 1)
+            background_image: ''
+
             ActionView:
+                use_separator: True
+
                 ActionPrevious:
-                    elevation:5
-                    with_previous: False
                     title: 'App Name'
-                    ActionButton:
+                    with_previous: False
+
+                ActionButton:
                         text: "Home"
-                        on_press: app.root.current = "Diagnosis"
-                    ActionButton:
-                        text: "About"
-                        on_press: app.root.current = "About"
+                    on_press: app.root.current = "Diagnosis"
+
+                ActionButton:
+                    text: "About"
+                    on_press: app.root.current = "About"
         Label:
             text: 'Diagnosify'
             color: 0, 0, 0, 1
