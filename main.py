@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
 from selenium import webdriver#type: ignore
 from selenium.webdriver.common.by import By #type: ignore
+from selenium.webdriver.common.window import WindowTypes
 from selenium.webdriver.common.keys import Keys#type: ignore
 from openai import OpenAI
 import base64
@@ -51,6 +52,8 @@ class Diagnosis(Screen):
             for i in self.doctor.reply.split():
                 self.driver.find_elements(By.XPATH, "(//div[contains(@class, 'form-checkboxes') and contains(@class, 'bef-checkboxes')])[1]//div//label")[int(i)].click()
 
+        self.driver.switch_to.new_window(WindowTypes.TAB)
+        self.driver.get("https://www.dhcs.ca.gov/services/medi-cal/Pages/Transportation.aspx")
 
 class CameraScreen(Screen):
     def __init__(self, **kw):
@@ -76,7 +79,6 @@ class ChatBot():
         self.inputList = [{"role": "system", "content": "A doctor that will give a diagnosis and self-treatment that can be done by low-income individuals based on user symptoms."},
                           {"role": "system", "content": "If doctor is not sure, it should ask about more common symptoms that could lead to a diagnosis. Keep the responses brief but useful."},
                           {"role": "system", "content": "When a diagnosis is reached, make sure your reply starts with 'My diagnosis is'. Also include some treatment that can be done at home by low-income individuals."},
-                          {"role": "system", "content": "After giving your diangosis, ask if they need help with transport, in which case you can direct them to DHCSNMT@dhcs.ca.gov"}
                           ]
         self.reply = ""
         
