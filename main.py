@@ -69,7 +69,7 @@ class CameraScreen(Screen):
 class WindowManager(ScreenManager):
     pass
 
-class AIlmentsApp(App):
+class DiagnoSysApp(App):
     def build(self):
         return kv
 
@@ -112,4 +112,4 @@ class ChatBot():
         return self.reply
 
 kv = Builder.load_file("s4.kv")#I'm always thirsty, experience more urination during night and am tired
-AIlmentsApp().run()
+DiagnoSysApp().run()
