@@ -36,7 +36,7 @@ class Diagnosis(Screen):
         os.remove(file)
     
     def get_help(self, hospital):
-        if not self.driver():
+        if not self.driver:
             self.driver = webdriver.Chrome()
         else:
             self.driver.switch_to.new_window(WindowTypes.TAB)    
