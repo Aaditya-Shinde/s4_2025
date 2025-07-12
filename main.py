@@ -19,6 +19,7 @@ class Diagnosis(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
         self.doctor = ChatBot()
+        self.driver = None
     
     def show_response(self, message):
         self.ids.response.text += message
@@ -35,7 +36,10 @@ class Diagnosis(Screen):
         os.remove(file)
     
     def get_help(self, hospital):
-        self.driver = webdriver.Chrome()
+        if not self.driver():
+            self.driver = webdriver.Chrome()
+        else:
+            self.driver.switch_to.new_window(WindowTypes.TAB)    
         if "El Camino Health" == hospital:
             self.driver.get("https://www.getcare.elcaminohealth.org/providers?location=San+Jose%2C+CA")
             condition = self.doctor.chat("What is my condition? resposne should be only the name of the condition. If you have no clue what my condition is, respond with only 'None'")
