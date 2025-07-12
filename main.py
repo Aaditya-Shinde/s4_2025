@@ -123,6 +123,7 @@ try:
 except KeyboardInterrupt:
     try:
         driver.close()
-    except TypeError:
+    except AttributeError:
         pass
+    os.system('clear')
     exit(0)

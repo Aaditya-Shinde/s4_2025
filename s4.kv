@@ -15,7 +15,7 @@ WindowManager:
             pos: self.pos
             size: self.size 
     GridLayout:
-        cols: 2
+        cols: 1
         rows: 2
         size: root.width, root.height
 
@@ -37,6 +37,100 @@ WindowManager:
                 ActionButton:
                     text: "About"
                     on_press: app.root.current = "About"
+        ScrollView:
+            do_scroll_y: True
+            bar_width: 8
+
+            GridLayout:
+                cols: 1
+                size_hint_y: None
+                padding: 24
+                spacing: 20
+                size_hint: 1, 1
+
+                canvas.before:
+                    Color:
+                        rgba: 0.97, 0.97, 0.97, 1  # light gray bg
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                Label:
+                    text: "[b]Heading[/b]"
+                    markup: True
+                    font_size: '26sp'
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    halign: 'center'
+                    text_size: self.width, None
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    padding: 16
+                    spacing: 10
+                    size_hint_y: None
+                    height: self.minimum_height
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [16]
+
+                    Label:
+                        text: "🧁 Put text here that explains something cool"
+                        font_size: '16sp'
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        halign: 'left'
+                        valign: 'top'
+                        text_size: self.width, None
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    padding: 16
+                    spacing: 10
+                    size_hint_y: None
+                    height: self.minimum_height
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [16]
+
+                    Label:
+                        text: "🚀 Put another section heading"
+                        font_size: '18sp'
+                        bold: True
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        halign: 'left'
+                        text_size: self.width, None
+
+                    Label:
+                        text: "Put more description here"
+                        font_size: '15sp'
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        halign: 'left'
+                        text_size: self.width, None
+
+                Label:
+                    text: "🌍 [i]Put footer or contact info here[/i]"
+                    markup: True
+                    font_size: '14sp'
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    halign: 'center'
+                    text_size: self.width, None
+
+                Widget:
+                    size_hint_y: None
+                    height: 40
+
 
 <HelpPopup@Popup>:
     auto_dismiss: False
@@ -88,10 +182,9 @@ WindowManager:
         Label:
             text: 'Diagnosify'
             color: 0, 0, 0, 1
-            padding: 0, 30, 0, 0
-            size_hint_y: 0.05
+            size_hint_y: 0.1
         ScrollView:
-            size_hint: 1, 0.7
+            size_hint: 1, 0.9
             do_scroll_x: False
             do_scroll_y: True
             Label:
@@ -108,6 +201,7 @@ WindowManager:
         BoxLayout:
             orientation: 'horizontal'
             padding: 5, 0, 5, 0
+            size_hint_y: 0.15
             Button:
                 background_normal: ''
                 background_down: ''
@@ -146,7 +240,7 @@ WindowManager:
                     size: self.parent.size[0]-20, self.parent.size[1]
         TextInput:
             padding: 20
-            size_hint_y: 0.3
+            size_hint: 1, 0.3
             id: prompt
             hint_text: "Type symptoms here"
             multiline: False
