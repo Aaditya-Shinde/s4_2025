@@ -36,93 +36,143 @@ WindowManager:
                 ActionButton:
                     text: "About"
                     on_press: app.root.current = "About"
-        ScrollView:
-            do_scroll_y: True
-            bar_width: 8
 
-            GridLayout:
-                cols: 1
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            BoxLayout:
+                orientation: 'vertical'
                 size_hint_y: None
+                height: self.minimum_height
                 padding: 24
                 spacing: 20
-                size_hint: 1, 1
-
-                canvas.before:
-                    Color:
-                        rgba: 0, 0, 0, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-
-                Label:
-                    text: "[b]Heading[/b]"
-                    markup: True
-                    font_size: '26sp'
-                    size_hint_y: None
-                    halign: 'center'
-
-                BoxLayout:
-                    orientation: 'vertical'
-                    padding: 16
-                    spacing: 10
+                GridLayout:
+                    cols: 1
                     size_hint_y: None
                     height: self.minimum_height
-                    canvas.before:
-                        Color:
-                            rgba: 1, 1, 1, 1
-                        RoundedRectangle:
-                            pos: self.pos
-                            size: self.size
-                            radius: [16]
+                    padding: 24
+                    spacing: 20
 
                     Label:
-                        text: "Put some stuff abt urself here"
-                        font_size: '16sp'
+                        color: 0, 0, 0, 1
+                        text: "[b]Aaditya Shinde[/b]"
+                        markup: True
+                        font_size: '26sp'
                         size_hint_y: None
-                        height: self.texture_size[1]
-                        halign: 'left'
-                        valign: 'top'
-                        text_size: self.width, None
+                        halign: 'center'
 
-                BoxLayout:
-                    orientation: 'vertical'
-                    padding: 16
-                    spacing: 10
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: 24
+                        spacing: 20
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [16]
+
+                        Label:
+                            color: 0, 0, 0, 1
+                            text: "I'm a rising freshman going into Homestead Highschool. I'm excited to participate in S4 and help people in our community through DiagnoSys."
+                            font_size: '16sp'
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            halign: 'left'
+                            valign: 'top'
+                            text_size: self.width, None
+
+                        CircularImage:
+                            source: "person1.png"
+                            size: 200, 200
+                GridLayout:
+                    cols: 1
                     size_hint_y: None
                     height: self.minimum_height
-                    canvas.before:
-                        Color:
-                            rgba: 1, 1, 1, 1
-                        RoundedRectangle:
-                            pos: self.pos
-                            size: self.size
-                            radius: [16]
+                    padding: 24
+                    spacing: 20
 
                     Label:
-                        text: "Tex"
-                        font_size: '18sp'
-                        bold: True
+                        color: 0, 0, 0, 1
+                        text: "[b]Arjun Surendra[/b]"
+                        markup: True
+                        font_size: '26sp'
                         size_hint_y: None
-                        height: self.texture_size[1]
-                        halign: 'left'
-                        text_size: self.width, None
+                        halign: 'center'
 
-                    Label:
-                        text: "text"
-                        font_size: '15sp'
+                    BoxLayout:
+                        orientation: 'horizontal'
                         size_hint_y: None
-                        height: self.texture_size[1]
-                        halign: 'left'
-                        text_size: self.width, None
+                        height: self.minimum_height
+                        padding: 24
+                        spacing: 20
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [16]
 
-                Label:
-                    text: "More text"
-                    markup: True
-                    font_size: '14sp'
+                        Label:
+                            color: 0, 0, 0, 1
+                            text: "Hello, I'm Arjun Surendra. I am a rising freshman at Homestead High School. I live in Sunnyvale, and I am very excited to help our people with DiagnoSys!"
+                            font_size: '16sp'
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            halign: 'left'
+                            valign: 'top'
+                            text_size: self.width, None
+
+                        CircularImage:
+                            source: "person2.png"
+                            size: 200, 200
+                GridLayout:
+                    cols: 1
                     size_hint_y: None
-                    height: self.texture_size[1]
-                    halign: 'center'
-                    text_size: self.width, None
+                    height: self.minimum_height
+                    padding: 24
+                    spacing: 20
+
+                    Label:
+                        color: 0, 0, 0, 1
+                        text: "[b]Raghav Joshi[/b]"
+                        markup: True
+                        font_size: '26sp'
+                        size_hint_y: None
+                        halign: 'center'
+
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: 24
+                        spacing: 20
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [16]
+
+                        Label:
+                            color: 0, 0, 0, 1
+                            text: "Hi, I’m Raghav Joshi, a rising freshman entering Fremont High School next year. I am intrigued by the power of AI in improving healthcare and am excited to participate in the Cupertino Library S4 contest to help our community with DiagnoSys."
+                            font_size: '16sp'
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            halign: 'left'
+                            valign: 'top'
+                            text_size: self.width, None
+
+                        CircularImage:
+                            source: "person3.png"
+                            size: 200, 200
 
 <HelpPopup@Popup>:
     auto_dismiss: False
@@ -252,3 +302,18 @@ WindowManager:
             text: 'Capture'
             center_x: self.parent.center_x
             size: 150, 150
+
+
+
+<CircularImage@Widget>:
+    source: None
+    canvas:
+        StencilPush
+        Ellipse:
+            pos: self.pos
+        StencilUse
+        Rectangle:
+            pos: self.pos
+            source: root.source
+        StencilUnUse
+        StencilPop
