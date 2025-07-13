@@ -192,18 +192,21 @@ WindowManager:
 
 <Diagnosis>:
     name: "Diagnosis"
-    color: 0, 0, 0, 1
     canvas.before:
         Color:
             rgba: 1, 1, 1, 1
         Rectangle:
             pos: self.pos
-            size: self.size 
-    GridLayout:
-        size: root.width, root.height
-        cols: 1
-        rows: 5
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [0, 0, 0, 0] 
+        spacing: 10           
+
         ActionBar:
+            size_hint_y: None
+            height: '48dp'  
             background_color: (0.14, 0.68, 0.87, 1)
             background_image: ''
 
@@ -221,73 +224,117 @@ WindowManager:
                 ActionButton:
                     text: "About"
                     on_press: app.root.current = "About"
+
         Label:
-            text: 'Diagnosify'
+            text: 'DiagnoSys'
             color: 0, 0, 0, 1
-            size_hint_y: 0.1
+            size_hint_y: None
+            height: self.texture_size[1] + 10
+            halign: 'center'
+            valign: 'middle'
+            text_size: self.width, None
+
         ScrollView:
-            size_hint_x: 1
+            size_hint_y: 1
             do_scroll_x: False
             do_scroll_y: True
-            Label:
-                id: response
-                text: ""
-                padding: 5, 0, 5, 0
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            BoxLayout:
+                orientation: 'vertical'
                 size_hint_y: None
-                height: self.texture_size[1]
-                text_size: self.width, None
-                halign: 'left'
-                valign: 'top'
-                markup: True
-                    
+                height: self.minimum_height
+                padding: 10
+                spacing: 10
+
+                Label:
+                    id: response
+                    text: ""
+                    padding: 5, 0, 5, 0
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+                    halign: 'left'
+                    valign: 'top'
+                    markup: True
+
         BoxLayout:
+            size_hint_y: None
+            height: '60dp'
             orientation: 'horizontal'
-            padding: 5, 0, 5, 0
-            size_hint_y: 0.15
+            padding: [5, 0, 5, 0]
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 1, 0, 0, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
             Button:
                 background_normal: ''
                 background_down: ''
-                on_press: self.background_color = (0.7, 0.7, 0.7, 1)
-                on_release: self.background_color = (0, 0, 0, 0)
-                on_release: app.root.current = "Camera"
                 size_hint: None, None
+                size: 60, 60
+                on_press:
+                    self.background_color = (0.7, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (0, 0, 0, 0)
+                    app.root.current = "Camera"
                 Image:
-                    source: "camera.png"
+                    source: 'camera.png'
+                    size_hint: None, None
+                    size: 50, 50
                     center_x: self.parent.center_x
                     center_y: self.parent.center_y
-                    size: self.parent.size[0]-20, self.parent.size[1]
+
             Button:
                 background_normal: ''
                 background_down: ''
-                on_press: self.background_color = (0.7, 0.7, 0.7, 1)
-                on_release: self.background_color = (0, 0, 0, 0)
-                on_release: app.root.current = "Camera"
                 size_hint: None, None
+                size: 60, 60
+                on_press:
+                    self.background_color = (0.7, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (0, 0, 0, 0)
+                    Factory.HelpPopup().open()
                 Image:
-                    source: "call.png"
+                    source: 'doctor.png'
+                    size_hint: None, None
+                    size: 50, 50
                     center_x: self.parent.center_x
                     center_y: self.parent.center_y
-                    size: self.parent.size[0]-20, self.parent.size[1]
+
             Button:
                 background_normal: ''
                 background_down: ''
-                on_press: self.background_color = (0.7, 0.7, 0.7, 1)
-                on_release: self.background_color = (0, 0, 0, 0)
-                on_release: Factory.HelpPopup().open()
                 size_hint: None, None
+                size: 60, 60
+                on_press:
+                    self.background_color = (0.7, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (0, 0, 0, 0)
                 Image:
-                    source: "doctor.png"
+                    source: 'call.png'
+                    size_hint: None, None
+                    size: 50, 50
                     center_x: self.parent.center_x
                     center_y: self.parent.center_y
-                    size: self.parent.size[0]-20, self.parent.size[1]
+
         TextInput:
-            padding: 20
-            size_hint: 1, 0.3
             id: prompt
+            size_hint_y: None
+            height: '70dp'
+            padding: 20
             hint_text: "Type symptoms here"
             multiline: False
-            focused: False
             on_text_validate: root.text_inquiry()
+
 
 <CameraScreen>
     name: "Camera"
