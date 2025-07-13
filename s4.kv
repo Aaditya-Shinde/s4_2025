@@ -1,13 +1,12 @@
 #:import Factory kivy.factory.Factory
 
 WindowManager:
-    Diagnosis:
     About:
+    Diagnosis:
     CameraScreen:
         
 <About>:
     name: "About"
-    color: 0, 0, 0, 1
     canvas.before:
         Color:
             rgba: 1, 1, 1, 1
@@ -50,7 +49,7 @@ WindowManager:
 
                 canvas.before:
                     Color:
-                        rgba: 0.97, 0.97, 0.97, 1  # light gray bg
+                        rgba: 0, 0, 0, 1
                     Rectangle:
                         pos: self.pos
                         size: self.size
@@ -60,9 +59,7 @@ WindowManager:
                     markup: True
                     font_size: '26sp'
                     size_hint_y: None
-                    height: self.texture_size[1]
                     halign: 'center'
-                    text_size: self.width, None
 
                 BoxLayout:
                     orientation: 'vertical'
@@ -79,7 +76,7 @@ WindowManager:
                             radius: [16]
 
                     Label:
-                        text: "🧁 Put text here that explains something cool"
+                        text: "Put some stuff abt urself here"
                         font_size: '16sp'
                         size_hint_y: None
                         height: self.texture_size[1]
@@ -102,7 +99,7 @@ WindowManager:
                             radius: [16]
 
                     Label:
-                        text: "🚀 Put another section heading"
+                        text: "Tex"
                         font_size: '18sp'
                         bold: True
                         size_hint_y: None
@@ -111,7 +108,7 @@ WindowManager:
                         text_size: self.width, None
 
                     Label:
-                        text: "Put more description here"
+                        text: "text"
                         font_size: '15sp'
                         size_hint_y: None
                         height: self.texture_size[1]
@@ -119,18 +116,13 @@ WindowManager:
                         text_size: self.width, None
 
                 Label:
-                    text: "🌍 [i]Put footer or contact info here[/i]"
+                    text: "More text"
                     markup: True
                     font_size: '14sp'
                     size_hint_y: None
                     height: self.texture_size[1]
                     halign: 'center'
                     text_size: self.width, None
-
-                Widget:
-                    size_hint_y: None
-                    height: 40
-
 
 <HelpPopup@Popup>:
     auto_dismiss: False
