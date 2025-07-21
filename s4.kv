@@ -206,7 +206,7 @@ WindowManager:
 
         ActionBar:
             size_hint_y: None
-            height: '48dp'  
+            height: '70dp'  
             background_color: (0.14, 0.68, 0.87, 1)
             background_image: ''
 
@@ -215,18 +215,22 @@ WindowManager:
 
                 ActionPrevious:
                     title: 'DiagnoSys'
+                    font_size: '10dp'  
                     with_previous: False
 
                 ActionButton:
                     text: "Home"
+                    font_size: 50
                     on_press: app.root.current = "Diagnosis"
 
                 ActionButton:
                     text: "About"
+                    font_size: 50
                     on_press: app.root.current = "About"
 
         Label:
             text: 'DiagnoSys'
+            font_size: '30dp'  
             color: 0, 0, 0, 1
             size_hint_y: None
             height: self.texture_size[1] + 10
@@ -268,7 +272,7 @@ WindowManager:
                 background_normal: ''
                 background_down: ''
                 size_hint: None, None
-                size: 60, 60
+                size: 100, 100
                 on_press:
                     self.background_color = (0.7, 0.7, 0.7, 1)
                 on_release:
@@ -277,7 +281,7 @@ WindowManager:
                 Image:
                     source: 'camera.png'
                     size_hint: None, None
-                    size: 50, 50
+                    size: 90, 90
                     center_x: self.parent.center_x
                     center_y: self.parent.center_y
 
@@ -285,7 +289,7 @@ WindowManager:
                 background_normal: ''
                 background_down: ''
                 size_hint: None, None
-                size: 60, 60
+                size: 100, 100
                 on_press:
                     self.background_color = (0.7, 0.7, 0.7, 1)
                 on_release:
@@ -294,7 +298,7 @@ WindowManager:
                 Image:
                     source: 'doctor.png'
                     size_hint: None, None
-                    size: 50, 50
+                    size: 90, 90
                     center_x: self.parent.center_x
                     center_y: self.parent.center_y
 
@@ -302,7 +306,7 @@ WindowManager:
                 background_normal: ''
                 background_down: ''
                 size_hint: None, None
-                size: 60, 60
+                size: 100, 100
                 on_press:
                     self.background_color = (0.7, 0.7, 0.7, 1)
                 on_release:
@@ -310,14 +314,14 @@ WindowManager:
                 Image:
                     source: 'call.png'
                     size_hint: None, None
-                    size: 50, 50
+                    size: 90, 90
                     center_x: self.parent.center_x
                     center_y: self.parent.center_y
 
         TextInput:
             id: prompt
             size_hint_y: None
-            height: '70dp'
+            height: '130dp'
             padding: 20
             hint_text: "Type symptoms here"
             multiline: False
