@@ -118,7 +118,7 @@ class ChatBot():
 
 driver = None
 try:
-    kv = Builder.load_file("s4.kv")#I'm always thirsty, experience more urination during night and am tired. I also have blurry vision and have trouble catching my breath
+    kv = Builder.load_file("s4.kv")#Diabetes Example: I'm always thirsty, experience more urination during night and am tired. I also have blurry vision and have trouble catching my breath
     DiagnoSysApp().run()
 except KeyboardInterrupt:
     try:
