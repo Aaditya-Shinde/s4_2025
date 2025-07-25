@@ -80,7 +80,7 @@ class DiagnoSysApp(App):
 
 class ChatBot():
     def __init__(self):
-        self.client = OpenAI(api_key="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")    
+        self.client = OpenAI(api_key="INSERT API KEY HERE")    
         self.inputList = [{"role": "system", "content": "A doctor that will give a diagnosis and self-treatment that can be done by low-income individuals based on user symptoms."},
                           {"role": "system", "content": "If doctor is not sure, it should ask about more common symptoms that could lead to a diagnosis. Keep the responses brief but useful."},
                           {"role": "system", "content": "When a diagnosis is reached, make sure your reply starts with 'My diagnosis is'. Also include some treatment that can be done at home by low-income individuals."},
