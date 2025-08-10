@@ -1,11 +1,19 @@
+from kivy.uix.actionbar import BoxLayout
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
+from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
 from selenium import webdriver#type: ignore
 from selenium.webdriver.common.by import By #type: ignore
 from selenium.webdriver.common.window import WindowTypes
 from selenium.webdriver.common.keys import Keys#type: ignore
 from openai import OpenAI
+import io
+import base64
+from kivy.graphics.texture import Texture
+from PIL import Image
 import base64
 import os
 
@@ -20,6 +28,33 @@ class Diagnosis(Screen):
         super().__init__(**kw)
         self.doctor = ChatBot()
     
+    def open_help_popup(self):
+        layout = BoxLayout(orientation='vertical', spacing=8, padding=8)
+
+        b1 = Button(text='El Camino Health', size_hint_y=None, height='48dp')
+        def on_elcamino(btn):
+            self.get_help("El Camino Health")
+            popup.dismiss()
+        b1.bind(on_release=on_elcamino)
+
+        b2 = Button(text='Valley Medical', size_hint_y=None, height='48dp')
+        def on_valley(btn):
+            self.get_help("Valley Medical")
+            popup.dismiss()
+        b2.bind(on_release=on_valley)
+
+        layout.add_widget(b1)
+        layout.add_widget(b2)
+
+        popup = Popup(
+            title="Choose a hospital",
+            content=layout,
+            size_hint=(0.6, 0.2),
+            pos_hint={"x": 0.2, "top": 0.9},
+            auto_dismiss=False
+        )
+        popup.open()
+
     def show_response(self, message):
         self.ids.response.text += message
         self.ids.response.parent.scroll_y = 0
@@ -29,10 +64,9 @@ class Diagnosis(Screen):
         self.show_response(f"\n\n[color=FC0303]{self.ids.prompt.text}[/color] \n\n[color=030FFC]{self.doctor.reply}[/color]")
         self.ids.prompt.text = ""    
 
-    def image_evaluation(self, file):
-        self.doctor.image(file)
+    def image_evaluation(self, data_url):
+        self.doctor.image(data_url)
         self.show_response(f"\n\n[color=FC0303]You sent an image to the doctor[/color] \n\n[color=030FFC]{self.doctor.reply}[/color]")
-        os.remove(file)
     
     def get_help(self, hospital):
         global driver
@@ -66,10 +100,21 @@ class CameraScreen(Screen):
         
     def save_image(self):
         camera = self.ids['camera']
-        file = f"captured_images/image.png"
-        camera.export_to_png(file)
-        print("Captured")
-        App.get_running_app().root.get_screen("Diagnosis").image_evaluation(file)
+        texture = camera.texture
+        
+        pixels = texture.pixels 
+        width, height = texture.size
+        image = Image.frombytes('RGBA', (width, height), pixels)
+        image = image.convert('RGB')
+
+        buffer = io.BytesIO()
+        image.save(buffer, format='JPEG')
+        jpeg_bytes = buffer.getvalue()
+        buffer.close()
+
+        encoded_img = base64.b64encode(jpeg_bytes).decode('utf-8')
+        data_url = f"data:image/jpeg;base64,{encoded_img}"
+        App.get_running_app().root.get_screen("Diagnosis").image_evaluation(data_url)
 
 class WindowManager(ScreenManager):
     pass
@@ -84,13 +129,11 @@ class ChatBot():
         self.inputList = [{"role": "system", "content": "A doctor that will give a diagnosis and self-treatment that can be done by low-income individuals based on user symptoms."},
                           {"role": "system", "content": "If doctor is not sure, it should ask about more common symptoms that could lead to a diagnosis. Keep the responses brief but useful."},
                           {"role": "system", "content": "When a diagnosis is reached, make sure your reply starts with 'My diagnosis is'. Also include some treatment that can be done at home by low-income individuals."},
+                          {"role": "system", "content": "Your name is DiagnoSys"},
                           ]
         self.reply = ""
         
-    def image(self, file):
-        encoded_img = base64.b64encode(open(file, "rb").read()).decode('utf-8')
-        data_url = f"data:image/jpeg;base64,{encoded_img}"
-
+    def image(self, data_url):
         self.inputList.append({"role": "user", "content": [{"type": "input_image", "image_url": data_url}]}) 
         response = self.client.responses.create(
                         model="gpt-4.1-mini",
