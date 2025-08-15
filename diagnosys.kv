@@ -17,6 +17,8 @@ WindowManager:
         size: root.width, root.height
 
         ActionBar:
+            size_hint_y: None
+            height: '70dp'  
             background_color: (0.14, 0.68, 0.87, 1)
             background_image: ''
 
@@ -25,14 +27,18 @@ WindowManager:
 
                 ActionPrevious:
                     title: 'DiagnoSys'
+                    font_size: '10dp'  
                     with_previous: False
+                    app_icon: root.logo_path
 
                 ActionButton:
                     text: "Home"
+                    font_size: 50
                     on_press: app.root.current = "Diagnosis"
 
                 ActionButton:
                     text: "About"
+                    font_size: 50
                     on_press: app.root.current = "About"
 
         ScrollView:
@@ -76,7 +82,7 @@ WindowManager:
 
                         Label:
                             color: 0, 0, 0, 1
-                            text: "I'm a rising freshman going into Homestead Highschool. I'm excited to participate in S4 and help people in our community through DiagnoSys."
+                            text: "I'm Aaditya Shinde, a rising freshman in the San Fransisco Bay Area in California. It was extremely dissapointing for me to regularly see people not being able to afford healthcare. This is why I created DiagnoSys with the help of my friends. I did most of the programming."
                             font_size: '16sp'
                             size_hint_y: None
                             height: self.texture_size[1]
@@ -85,7 +91,7 @@ WindowManager:
                             text_size: self.width, None
 
                         CircularImage:
-                            source: "images/person1.png"
+                            source: root.person1_path
                             size: 200, 200
                 GridLayout:
                     cols: 1
@@ -118,7 +124,7 @@ WindowManager:
 
                         Label:
                             color: 0, 0, 0, 1
-                            text: "Hello, I'm Arjun Surendra. I am a rising freshman at Homestead High School. I live in Sunnyvale, and I am very excited to help our people with DiagnoSys!"
+                            text: "Hello, I'm Arjun Surendra. I am a rising freshman in the San Fransisco Bay Area in California. I am very excited to help our people with DiagnoSys! I did most of the research and outreach"
                             font_size: '16sp'
                             size_hint_y: None
                             height: self.texture_size[1]
@@ -127,7 +133,7 @@ WindowManager:
                             text_size: self.width, None
 
                         CircularImage:
-                            source: "images/person2.png"
+                            source: root.person2_path
                             size: 200, 200
                 GridLayout:
                     cols: 1
@@ -160,7 +166,7 @@ WindowManager:
 
                         Label:
                             color: 0, 0, 0, 1
-                            text: "Hi, I’m Raghav Joshi, a rising freshman entering Fremont High School next year. I am intrigued by the power of AI in improving healthcare and am excited to participate in the Cupertino Library S4 contest to help our community with DiagnoSys."
+                            text: "Hi, I’m Raghav Joshi, a rising freshman in the San Fransisco Bay Area in California. I am intrigued by the power of AI in improving healthcare and am excited to help our community with DiagnoSys. I did most of the poster"
                             font_size: '16sp'
                             size_hint_y: None
                             height: self.texture_size[1]
@@ -169,7 +175,7 @@ WindowManager:
                             text_size: self.width, None
 
                         CircularImage:
-                            source: "images/person3.png"
+                            source: root.person3_path
                             size: 200, 200
 
 <Diagnosis>:
@@ -199,6 +205,7 @@ WindowManager:
                     title: 'DiagnoSys'
                     font_size: '10dp'  
                     with_previous: False
+                    app_icon: root.logo_path
 
                 ActionButton:
                     text: "Home"
@@ -261,7 +268,7 @@ WindowManager:
                     self.background_color = (0, 0, 0, 0)
                     app.root.current = "Camera"
                 Image:
-                    source: 'images/camera.png'
+                    source: root.cam_image_path
                     size_hint: None, None
                     size: 90, 90
                     center_x: self.parent.center_x
@@ -278,7 +285,7 @@ WindowManager:
                     self.background_color = (0, 0, 0, 0);
                     app.root.get_screen("Diagnosis").open_help_popup()
                 Image:
-                    source: 'images/doctor.png'
+                    source: root.doc_image_path
                     size_hint: None, None
                     size: 90, 90
                     center_x: self.parent.center_x
@@ -294,7 +301,7 @@ WindowManager:
                 on_release:
                     self.background_color = (0, 0, 0, 0)
                 Image:
-                    source: 'images/call.png'
+                    source: root.call_image_path
                     size_hint: None, None
                     size: 90, 90
                     center_x: self.parent.center_x
@@ -312,17 +319,45 @@ WindowManager:
 
 <CameraScreen>
     name: "Camera"
-    Camera:
-        id:camera
-        play:True
-        index: 0
-        size_hint: 1, 1
-        Button:
-            on_press: app.root.current = "Diagnosis"
-            on_press: root.save_image()
-            text: 'Capture'
-            center_x: self.parent.center_x
-            size: 150, 150
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [0, 0, 0, 0] 
+        spacing: 10    
+        ActionBar:
+            size_hint_y: None
+            height: '70dp'  
+            background_color: (0.14, 0.68, 0.87, 1)
+            background_image: ''
+
+            ActionView:
+                use_separator: True
+
+                ActionPrevious:
+                    title: 'DiagnoSys'
+                    font_size: '10dp'  
+                    with_previous: False
+                    app_icon: root.logo_path
+
+                ActionButton:
+                    text: "Home"
+                    font_size: 50
+                    on_press: app.root.current = "Diagnosis"
+
+                ActionButton:
+                    text: "About"
+                    font_size: 50
+                    on_press: app.root.current = "About"
+        Camera:
+            id:camera
+            play:True
+            index: 0
+            size_hint: 1, 1
+            Button:
+                on_press: app.root.current = "Diagnosis"
+                on_press: root.save_image()
+                text: 'Capture'
+                center_x: self.parent.center_x
+                size: 150, 150
 
 
 

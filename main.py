@@ -5,6 +5,8 @@ from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
+from kivy.graphics.texture import Texture
+from kivy.properties import StringProperty
 from selenium import webdriver#type: ignore
 from selenium.webdriver.common.by import By #type: ignore
 from selenium.webdriver.common.window import WindowTypes
@@ -12,21 +14,38 @@ from selenium.webdriver.common.keys import Keys#type: ignore
 from openai import OpenAI
 import io
 import base64
-from kivy.graphics.texture import Texture
 from PIL import Image
 import base64
 import os
+import sys
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class Home(Screen):
     pass
 
 class About(Screen):
-    pass
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.logo_path = resource_path(os.path.join("images", "logo.png"))
+        self.person1_path = (resource_path(os.path.join("images", "person1.png")))
+        self.person2_path = (resource_path(os.path.join("images", "person2.png")))
+        self.person3_path = (resource_path(os.path.join("images", "person3.png")))
 
 class Diagnosis(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
         self.doctor = ChatBot()
+        self.logo_path = resource_path(os.path.join("images", "logo.png"))
+        self.doc_image_path = (resource_path(os.path.join("images", "doctor.png")))
+        self.cam_image_path = (resource_path(os.path.join("images", "camera.png")))
+        self.call_image_path = (resource_path(os.path.join("images", "call.png")))
     
     def open_help_popup(self):
         layout = BoxLayout(orientation='vertical', spacing=8, padding=8)
@@ -97,6 +116,7 @@ class Diagnosis(Screen):
 class CameraScreen(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
+        self.logo_path = resource_path(os.path.join("images", "logo.png"))
         
     def save_image(self):
         camera = self.ids['camera']
@@ -125,7 +145,12 @@ class DiagnoSysApp(App):
 
 class ChatBot():
     def __init__(self):
-        self.client = OpenAI(api_key="INSERT API KEY HERE")    
+        textfile = open("api.txt")
+        self.api_key = textfile.read()
+        textfile.close()
+        print([self.api_key])
+        del textfile
+        self.client = OpenAI(api_key=self.api_key)
         self.inputList = [{"role": "system", "content": "A doctor that will give a diagnosis and self-treatment that can be done by low-income individuals based on user symptoms."},
                           {"role": "system", "content": "If doctor is not sure, it should ask about more common symptoms that could lead to a diagnosis. Keep the responses brief but useful."},
                           {"role": "system", "content": "When a diagnosis is reached, make sure your reply starts with 'My diagnosis is'. Also include some treatment that can be done at home by low-income individuals."},
@@ -161,7 +186,7 @@ class ChatBot():
 
 driver = None
 try:
-    kv = Builder.load_file("diagnosys.kv")#Diabetes Example: I'm always thirsty, experience more urination during night and am tired. I also have blurry vision and have trouble catching my breath
+    kv = Builder.load_file("diagnosys.kv")
     DiagnoSysApp().run()
 except KeyboardInterrupt:
     try:
