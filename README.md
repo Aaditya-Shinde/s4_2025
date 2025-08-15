@@ -1,2 +1,2 @@
 DiagnoSys is an AI powered medical assistant that assists low-income individuals with healthcare.
-In main.py, on line 83, replace INSERT API KEY HERE with an OpenAI API key.
+In api.txt, replace INSERT OPENAI API KEY HERE with an openai api key that you need to generate yourself.
