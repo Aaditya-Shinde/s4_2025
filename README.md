@@ -1,2 +1,5 @@
 DiagnoSys is an AI powered medical assistant that assists low-income individuals with healthcare.
-In api.txt, replace INSERT OPENAI API KEY HERE with an openai api key that you need to generate yourself.
+Enter your symptoms and DiagnoSys will get you a preliminary diagnosis as well as home treatments.
+Press the Camera icon in order to send photos of things like rashes
+Press the Doctor Icon to get in touch with doctors that specialize in your condition(doctors in my area, not global)
+Look at our about page!
