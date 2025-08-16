@@ -5,12 +5,15 @@ from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
+from kivy.uix.textinput import TextInput
+from kivy.clock import Clock
 from kivy.graphics.texture import Texture
 from kivy.properties import StringProperty
 from selenium import webdriver#type: ignore
 from selenium.webdriver.common.by import By #type: ignore
 from selenium.webdriver.common.window import WindowTypes
 from selenium.webdriver.common.keys import Keys#type: ignore
+from selenium.webdriver.chrome.service import Service
 from openai import OpenAI
 import io
 import base64
@@ -46,6 +49,7 @@ class Diagnosis(Screen):
         self.doc_image_path = (resource_path(os.path.join("images", "doctor.png")))
         self.cam_image_path = (resource_path(os.path.join("images", "camera.png")))
         self.call_image_path = (resource_path(os.path.join("images", "call.png")))
+        Clock.schedule_once(self.get_api, 0)
     
     def open_help_popup(self):
         layout = BoxLayout(orientation='vertical', spacing=8, padding=8)
@@ -73,6 +77,26 @@ class Diagnosis(Screen):
             auto_dismiss=False
         )
         popup.open()
+    
+    def get_api(self, instance):
+        self.text_input = TextInput(hint_text="Enter your OpenAI Api key", size_hint_y=None, height='48dp')
+        submit_button = Button(text="Submit", size_hint_y=None, height='48dp', on_press=self.submit_api)
+
+        layout = BoxLayout(orientation="vertical")
+        layout.add_widget(self.text_input)
+        layout.add_widget(submit_button)
+
+        self.popup = Popup(title="Enter Api key",
+                            content=layout,
+                            size_hint=(0.6, 0.2),
+                            pos_hint={"x": 0.2, "top": 0.9},)
+        self.popup.open()
+        
+    def submit_api(self, instance):
+        self.doctor.api_key = self.text_input.text
+        self.doctor.client = OpenAI(api_key=self.doctor.api_key)
+
+        self.popup.dismiss()
 
     def show_response(self, message):
         self.ids.response.text += message
@@ -91,7 +115,7 @@ class Diagnosis(Screen):
         global driver
 
         if not driver:
-            driver = webdriver.Chrome()
+            driver = webdriver.Chrome(service=Service(executable_path=resource_path('chromedriver')))
             driver.get("https://www.dhcs.ca.gov/services/medi-cal/Pages/Transportation.aspx")
             driver.switch_to.new_window(WindowTypes.TAB)
         else:
@@ -145,12 +169,6 @@ class DiagnoSysApp(App):
 
 class ChatBot():
     def __init__(self):
-        textfile = open("api.txt")
-        self.api_key = textfile.read()
-        textfile.close()
-        print([self.api_key])
-        del textfile
-        self.client = OpenAI(api_key=self.api_key)
         self.inputList = [{"role": "system", "content": "A doctor that will give a diagnosis and self-treatment that can be done by low-income individuals based on user symptoms."},
                           {"role": "system", "content": "If doctor is not sure, it should ask about more common symptoms that could lead to a diagnosis. Keep the responses brief but useful."},
                           {"role": "system", "content": "When a diagnosis is reached, make sure your reply starts with 'My diagnosis is'. Also include some treatment that can be done at home by low-income individuals."},
@@ -186,7 +204,7 @@ class ChatBot():
 
 driver = None
 try:
-    kv = Builder.load_file("diagnosys.kv")
+    kv = Builder.load_file(resource_path("diagnosys.kv"))
     DiagnoSysApp().run()
 except KeyboardInterrupt:
     try:
