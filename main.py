@@ -115,7 +115,7 @@ class Diagnosis(Screen):
         global driver
 
         if not driver:
-            driver = webdriver.Chrome(service=Service(executable_path=resource_path('chromedriver')))
+            driver = webdriver.Chrome(service=Service(executable_path=resource_path('chromedriver.exe')))
             driver.get("https://www.dhcs.ca.gov/services/medi-cal/Pages/Transportation.aspx")
             driver.switch_to.new_window(WindowTypes.TAB)
         else:
